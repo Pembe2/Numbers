@@ -5,10 +5,17 @@ const VOICE_STORAGE_KEY = "letter-lab-voice-v1";
 const GUIDE_STORAGE_KEY = "letter-lab-guide-v1";
 const QUANTITY_SHAPES = ["apple", "star", "leaf", "berry"];
 const FEMALE_VOICE_HINTS = [
+  "siri",
   "samantha",
+  "ava",
+  "allison",
+  "joelle",
+  "nicky",
   "karen",
   "susan",
   "victoria",
+  "moira",
+  "tessa",
   "zira",
   "hazel",
   "serena",
@@ -17,8 +24,13 @@ const FEMALE_VOICE_HINTS = [
   "female"
 ];
 const MALE_VOICE_HINTS = [
+  "siri",
+  "aaron",
   "daniel",
   "alex",
+  "oliver",
+  "arthur",
+  "liam",
   "david",
   "mark",
   "guy",
@@ -104,6 +116,7 @@ const state = {
   selectedNumberChoice: null
 };
 const ROUND_ADVANCE_FALLBACK_MS = 1400;
+const WRONG_ANSWER_PAUSE_MS = 25;
 
 const els = {
   scoreValue: document.querySelector("#scoreValue"),
@@ -222,7 +235,12 @@ function choiceButton(choice) {
   return button;
 }
 
+function clearIncorrectHighlights() {
+  document.querySelectorAll(".choice.wrong").forEach((choice) => choice.classList.remove("wrong"));
+}
+
 function selectNumberChoice(button, value) {
+  clearIncorrectHighlights();
   document.querySelectorAll(".quantity-choice").forEach((choice) => {
     choice.classList.toggle("is-selected", choice === button);
   });
@@ -254,6 +272,7 @@ function quantityDots(count, shape) {
 }
 
 function checkAnswer(button, value) {
+  clearIncorrectHighlights();
   const isCorrect = value === state.answer;
   button.classList.add(isCorrect ? "correct" : "wrong");
   state.selectedNumberChoice = null;
@@ -277,7 +296,7 @@ function checkAnswer(button, value) {
   els.feedback.className = "feedback retry";
   updateStats();
   saveProgress();
-  speakTarget();
+  speakWrongAnswer(value);
 }
 
 function retryMessage() {
@@ -459,6 +478,42 @@ function speakTarget(onDone) {
   window.speechSynthesis.speak(utterance);
 }
 
+function speakWrongAnswer(value) {
+  speakText(spokenValue(value), () => {
+    window.setTimeout(() => speakText("Try again."), WRONG_ANSWER_PAUSE_MS);
+  });
+}
+
+function speakText(text, onDone) {
+  if (!("speechSynthesis" in window)) {
+    if (onDone) window.setTimeout(onDone, 650);
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  const voice = selectedVoice(els.voiceSelect.value);
+  if (voice) utterance.voice = voice;
+  utterance.rate = 0.78;
+  utterance.pitch = 1.08;
+  if (onDone) {
+    let advanced = false;
+    const finish = () => {
+      if (advanced) return;
+      advanced = true;
+      onDone();
+    };
+    utterance.addEventListener("end", finish);
+    utterance.addEventListener("error", finish);
+    window.setTimeout(finish, ROUND_ADVANCE_FALLBACK_MS);
+  }
+  window.speechSynthesis.speak(utterance);
+}
+
+function spokenValue(value) {
+  return typeof value === "number" ? numberWord(String(value)) : value;
+}
+
 function setupVoices() {
   if (!("speechSynthesis" in window)) {
     els.voiceSelect.disabled = true;
@@ -487,12 +542,15 @@ function selectedVoice(type) {
 
 function voiceScore(voice, hints) {
   const name = `${voice.name} ${voice.voiceURI}`.toLowerCase();
-  const preferredLocale = voice.lang.toLowerCase() === "en-us" ? 3 : 0;
+  const lang = voice.lang.toLowerCase();
+  const preferredLocale = lang === "en-us" ? 5 : lang.startsWith("en-") ? 2 : 0;
   const localBonus = voice.localService ? 2 : 0;
+  const appleBonus = /(apple|siri|com\.apple)/.test(name) ? 10 : 0;
+  const enhancedBonus = /(premium|enhanced|neural)/.test(name) ? 4 : 0;
   const hintBonus = hints.reduce((score, hint, index) => {
     return name.includes(hint) ? score + 20 - index : score;
   }, 0);
-  return preferredLocale + localBonus + hintBonus;
+  return preferredLocale + localBonus + appleBonus + enhancedBonus + hintBonus;
 }
 
 function numberWord(symbol) {

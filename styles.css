@@ -237,6 +237,7 @@ h2 {
 }
 
 .target-symbol {
+  font-family: "Times New Roman", Georgia, serif;
   font-size: clamp(6rem, 30vh, 14rem);
   font-weight: 900;
   line-height: 0.78;
@@ -268,6 +269,7 @@ h2 {
 }
 
 .choice {
+  font-family: "Times New Roman", Georgia, serif;
   min-height: clamp(74px, 17vw, 132px);
   border-radius: 26px;
   background: white;
@@ -303,6 +305,7 @@ h2 {
 .quantity-choice {
   display: grid;
   place-items: center;
+  font-family: "Trebuchet MS", "Avenir Next Rounded", "Segoe UI", sans-serif;
   padding: 12px;
 }
 
@@ -380,6 +383,7 @@ canvas {
 .trace-guide {
   display: grid;
   place-items: center;
+  font-family: "Times New Roman", Georgia, serif;
   color: rgba(23, 33, 43, 0.08);
   font-size: min(76vw, 76vh);
   font-weight: 900;
