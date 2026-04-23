@@ -43,6 +43,17 @@ button {
   font: inherit;
   color: inherit;
   -webkit-tap-highlight-color: transparent;
+  transition: transform 140ms ease, box-shadow 140ms ease, filter 140ms ease, background-color 140ms ease;
+}
+
+button:active:not(:disabled) {
+  transform: translateY(3px) scale(0.98);
+  filter: brightness(0.96);
+}
+
+button:focus-visible {
+  outline: 4px solid rgba(77, 150, 255, 0.55);
+  outline-offset: 3px;
 }
 
 .app-shell {
@@ -67,8 +78,7 @@ button {
   grid-template-rows: auto minmax(0, 1fr) auto auto auto;
 }
 
-.trace-screen,
-.stats-screen {
+.trace-screen {
   grid-template-rows: auto minmax(0, 1fr) auto;
   padding: 18px;
   border-radius: var(--radius-xl);
@@ -97,8 +107,7 @@ h2 {
 }
 
 .controls,
-.segmented,
-.mini-dashboard {
+.segmented {
   display: grid;
   gap: 10px;
 }
@@ -169,9 +178,12 @@ h2 {
   box-shadow: 0 10px 22px rgba(23, 33, 43, 0.18);
 }
 
+.segment:active:not(:disabled) {
+  box-shadow: inset 0 3px 8px rgba(23, 33, 43, 0.22);
+}
+
 .practice-card,
-.trace-screen,
-.stats-screen {
+.trace-screen {
   border-radius: var(--radius-xl);
   background: var(--card);
   box-shadow: var(--shadow);
@@ -216,6 +228,21 @@ h2 {
   box-shadow: 0 10px 18px rgba(77, 150, 255, 0.24);
 }
 
+.icon-button:active:not(:disabled),
+.ghost-button:active:not(:disabled),
+.small-audio-button:active:not(:disabled),
+.bottom-action:active:not(:disabled),
+.confirm-button:active:not(:disabled) {
+  box-shadow: inset 0 3px 10px rgba(23, 33, 43, 0.2);
+}
+
+.speaker-button {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  padding: 0;
+}
+
 .ghost-button {
   background: rgba(23, 33, 43, 0.08);
   color: var(--ink);
@@ -246,7 +273,41 @@ h2 {
   color: var(--muted);
   font-size: 1.08rem;
   font-weight: 900;
-  text-align: center;
+  text-align: left;
+}
+
+.instruction-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.small-audio-button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  min-height: 40px;
+  padding: 0;
+  border-radius: 999px;
+  background: rgba(77, 150, 255, 0.12);
+  color: var(--sky);
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.speaker-icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.speaker-icon path:not(:first-child) {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
 }
 
 .feedback.good {
@@ -390,36 +451,6 @@ canvas {
   font-size: min(58vw, 68vh);
 }
 
-.mini-dashboard {
-  grid-template-columns: repeat(4, 1fr);
-  align-content: center;
-  margin-top: 0;
-}
-
-.mini-dashboard article {
-  min-height: 64px;
-  padding: 10px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.72);
-  text-align: center;
-  box-shadow: inset 0 0 0 2px rgba(23, 33, 43, 0.06);
-}
-
-.mini-dashboard span {
-  display: block;
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.mini-dashboard strong {
-  display: block;
-  margin-top: 4px;
-  font-size: 1.65rem;
-  line-height: 1;
-}
-
 .bottom-action {
   min-height: 56px;
   border-radius: 22px;
@@ -442,18 +473,8 @@ canvas {
   background: rgba(23, 33, 43, 0.16);
   color: rgba(23, 33, 43, 0.48);
   box-shadow: none;
-}
-
-.bottom-action.secondary {
-  background: rgba(23, 33, 43, 0.1);
-  color: var(--ink);
-  box-shadow: inset 0 0 0 2px rgba(23, 33, 43, 0.08);
-}
-
-.action-row {
-  display: grid;
-  grid-template-columns: 0.75fr 1.25fr;
-  gap: 10px;
+  transform: none;
+  filter: none;
 }
 
 @media (max-width: 680px) {
@@ -469,13 +490,6 @@ canvas {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .mini-dashboard {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .action-row {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 @media (max-height: 740px) {
@@ -502,10 +516,6 @@ canvas {
     min-height: 64px;
   }
 
-  .mini-dashboard article {
-    min-height: 56px;
-  }
-
   .bottom-action {
     min-height: 50px;
   }
@@ -526,9 +536,7 @@ canvas {
 @media (prefers-reduced-motion: no-preference) {
   .practice-card,
   .choices,
-  .trace-screen,
-  .stats-screen,
-  .mini-dashboard {
+  .trace-screen {
     animation: lift-in 480ms ease both;
   }
 
@@ -538,10 +546,6 @@ canvas {
 
   .choices {
     animation-delay: 140ms;
-  }
-
-  .mini-dashboard {
-    animation-delay: 260ms;
   }
 
   @keyframes lift-in {

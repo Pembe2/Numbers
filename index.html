@@ -8,9 +8,9 @@
     <meta name="apple-mobile-web-app-title" content="Letter Lab">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Letter Lab</title>
-    <link rel="manifest" href="manifest.webmanifest?v=24">
+    <link rel="manifest" href="manifest.webmanifest?v=31">
     <link rel="icon" href="icon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="styles.css?v=24">
+    <link rel="stylesheet" href="styles.css?v=31">
   </head>
   <body>
     <main class="app-shell">
@@ -33,22 +33,34 @@
         <section class="practice-card" aria-labelledby="promptLabel">
           <div class="prompt-topline">
             <p id="promptLabel">Find this one</p>
-            <button id="speakButton" class="icon-button" type="button" aria-label="Hear the symbol again">Hear</button>
+            <button id="speakButton" class="icon-button speaker-button" type="button" aria-label="Hear the symbol again">
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="speaker-icon">
+                <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+                <path d="M16 8.5a5 5 0 0 1 0 7"></path>
+                <path d="M18.5 6a8.5 8.5 0 0 1 0 12"></path>
+              </svg>
+            </button>
           </div>
           <div class="target-wrap">
             <span id="targetSymbol" class="target-symbol" aria-live="polite">A</span>
           </div>
-          <div id="feedback" class="feedback" aria-live="assertive">Tap the matching card.</div>
+          <div class="instruction-row">
+            <button id="speakInstruction" class="small-audio-button" type="button" aria-label="Hear the instructions">
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="speaker-icon">
+                <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+                <path d="M16 8.5a5 5 0 0 1 0 7"></path>
+                <path d="M18.5 6a8.5 8.5 0 0 1 0 12"></path>
+              </svg>
+            </button>
+            <div id="feedback" class="feedback" aria-live="assertive">Tap the matching card.</div>
+          </div>
         </section>
 
         <section class="choices" aria-label="Answer choices" id="choices"></section>
 
         <button id="confirmNumber" class="confirm-button" type="button" hidden>Confirm</button>
 
-        <div class="action-row">
-          <button id="openStats" class="bottom-action secondary" type="button">Stats</button>
-          <button id="openTrace" class="bottom-action" type="button">Practice tracing</button>
-        </div>
+        <button id="openTrace" class="bottom-action" type="button">Practice tracing</button>
       </section>
 
       <section id="traceScreen" class="screen trace-screen" aria-label="Tracing practice" hidden>
@@ -67,34 +79,8 @@
         </div>
         <button id="closeTrace" class="bottom-action" type="button">Back to matching</button>
       </section>
-
-      <section id="statsScreen" class="screen stats-screen" aria-label="Learning stats" hidden>
-        <div>
-          <p class="eyebrow">Progress</p>
-          <h2>Today</h2>
-        </div>
-        <section class="mini-dashboard" aria-label="Learning progress">
-          <article>
-            <span>Stars</span>
-            <strong id="scoreValue">0</strong>
-          </article>
-          <article>
-            <span>Correct</span>
-            <strong id="correctCount">0</strong>
-          </article>
-          <article>
-            <span>Try Again</span>
-            <strong id="missCount">0</strong>
-          </article>
-          <article>
-            <span>Streak</span>
-            <strong id="streakCount">0</strong>
-          </article>
-        </section>
-        <button id="closeStats" class="bottom-action" type="button">Back to matching</button>
-      </section>
     </main>
 
-    <script src="app.js?v=24" defer></script>
+    <script src="app.js?v=31" defer></script>
   </body>
 </html>

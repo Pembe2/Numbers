@@ -42,6 +42,7 @@ const state = {
   mode: "letters",
   target: "A",
   answer: "a",
+  instructions: "Tap the matching card.",
   roundType: "letters",
   correct: 0,
   missed: 0,
@@ -53,10 +54,6 @@ const ROUND_ADVANCE_FALLBACK_MS = 1400;
 const WRONG_ANSWER_PAUSE_MS = 25;
 
 const els = {
-  scoreValue: document.querySelector("#scoreValue"),
-  correctCount: document.querySelector("#correctCount"),
-  missCount: document.querySelector("#missCount"),
-  streakCount: document.querySelector("#streakCount"),
   targetSymbol: document.querySelector("#targetSymbol"),
   traceGuide: document.querySelector("#traceGuide"),
   feedback: document.querySelector("#feedback"),
@@ -64,12 +61,10 @@ const els = {
   confirmNumber: document.querySelector("#confirmNumber"),
   matchScreen: document.querySelector("#matchScreen"),
   traceScreen: document.querySelector("#traceScreen"),
-  statsScreen: document.querySelector("#statsScreen"),
   speakButton: document.querySelector("#speakButton"),
+  speakInstruction: document.querySelector("#speakInstruction"),
   openTrace: document.querySelector("#openTrace"),
   closeTrace: document.querySelector("#closeTrace"),
-  openStats: document.querySelector("#openStats"),
-  closeStats: document.querySelector("#closeStats"),
   voiceSelect: document.querySelector("#voiceSelect"),
   clearCanvas: document.querySelector("#clearCanvas"),
   canvas: document.querySelector("#traceCanvas")
@@ -84,7 +79,6 @@ bindControls();
 setupVoices();
 setupCanvas();
 newRound();
-updateStats();
 registerServiceWorker();
 
 function newRound() {
@@ -93,6 +87,7 @@ function newRound() {
   const round = state.roundType === "numbers" ? numberRound() : letterRound();
   state.target = round.target;
   state.answer = round.answer;
+  state.instructions = round.instructions;
 
   els.targetSymbol.textContent = state.target;
   els.traceGuide.textContent = state.target;
@@ -246,11 +241,10 @@ function bindControls() {
   });
 
   els.speakButton.addEventListener("click", speakTarget);
+  els.speakInstruction.addEventListener("click", speakInstructions);
   els.confirmNumber.addEventListener("click", confirmNumberChoice);
   els.openTrace.addEventListener("click", () => showScreen("trace"));
   els.closeTrace.addEventListener("click", () => showScreen("match"));
-  els.openStats.addEventListener("click", () => showScreen("stats"));
-  els.closeStats.addEventListener("click", () => showScreen("match"));
   els.voiceSelect.addEventListener("change", () => {
     localStorage.setItem(VOICE_STORAGE_KEY, els.voiceSelect.value);
     speakTarget();
@@ -276,13 +270,10 @@ function updateConfirmButton() {
 
 function showScreen(screen) {
   const showTrace = screen === "trace";
-  const showStats = screen === "stats";
-  els.matchScreen.hidden = showTrace || showStats;
+  els.matchScreen.hidden = showTrace;
   els.traceScreen.hidden = !showTrace;
-  els.statsScreen.hidden = !showStats;
-  els.matchScreen.classList.toggle("is-active", !showTrace && !showStats);
+  els.matchScreen.classList.toggle("is-active", !showTrace);
   els.traceScreen.classList.toggle("is-active", showTrace);
-  els.statsScreen.classList.toggle("is-active", showStats);
   clearDrawing();
 }
 
@@ -293,10 +284,7 @@ function setActive(selector, activeButton) {
 }
 
 function updateStats() {
-  els.scoreValue.textContent = state.stars;
-  els.correctCount.textContent = state.correct;
-  els.missCount.textContent = state.missed;
-  els.streakCount.textContent = state.streak;
+  return;
 }
 
 function speakTarget(onDone) {
@@ -324,6 +312,10 @@ function speakTarget(onDone) {
     window.setTimeout(finish, ROUND_ADVANCE_FALLBACK_MS);
   }
   window.speechSynthesis.speak(utterance);
+}
+
+function speakInstructions() {
+  speakText(state.instructions);
 }
 
 function speakWrongAnswer(value) {
