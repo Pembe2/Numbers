@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f7c948">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Letter Lab">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Letter Lab</title>
+    <link rel="manifest" href="manifest.webmanifest?v=15">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css?v=15">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section id="matchScreen" class="screen is-active" aria-label="Matching practice">
+        <section class="controls" aria-label="Practice settings">
+          <div class="segmented" role="group" aria-label="Choose practice type">
+            <button class="segment is-active" type="button" data-mode="letters">ABC</button>
+            <button class="segment" type="button" data-mode="numbers">123</button>
+            <button class="segment" type="button" data-mode="mixed">Mix</button>
+          </div>
+          <label class="voice-control" for="voiceSelect">
+            <span>Voice</span>
+            <select id="voiceSelect" aria-label="Choose speech voice">
+              <option value="female">Female English</option>
+              <option value="male">Male English</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="practice-card" aria-labelledby="promptLabel">
+          <div class="prompt-topline">
+            <p id="promptLabel">Find this one</p>
+            <button id="speakButton" class="icon-button" type="button" aria-label="Hear the symbol again">Hear</button>
+          </div>
+          <div class="target-wrap">
+            <span id="targetSymbol" class="target-symbol" aria-live="polite">A</span>
+          </div>
+          <div id="feedback" class="feedback" aria-live="assertive">Tap the matching card.</div>
+        </section>
+
+        <section class="choices" aria-label="Answer choices" id="choices"></section>
+
+        <button id="confirmNumber" class="confirm-button" type="button" hidden>Confirm</button>
+
+        <div class="action-row">
+          <button id="openStats" class="bottom-action secondary" type="button">Stats</button>
+          <button id="openTrace" class="bottom-action" type="button">Practice tracing</button>
+        </div>
+      </section>
+
+      <section id="traceScreen" class="screen trace-screen" aria-label="Tracing practice" hidden>
+        <div class="trace-header">
+          <div>
+            <p class="eyebrow">Trace Practice</p>
+            <h2 id="traceTitle">Draw it with your finger</h2>
+          </div>
+          <div class="trace-tools">
+            <button id="toggleGuide" class="ghost-button" type="button">Hide guide</button>
+            <button id="clearCanvas" class="ghost-button" type="button">Clear</button>
+          </div>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="traceCanvas" width="800" height="520" aria-label="Drawing area"></canvas>
+          <span id="traceGuide" class="trace-guide" aria-hidden="true">A</span>
+          <svg id="strokeGuide" class="stroke-guide" viewBox="0 0 100 100" aria-hidden="true"></svg>
+        </div>
+        <button id="closeTrace" class="bottom-action" type="button">Back to matching</button>
+      </section>
+
+      <section id="statsScreen" class="screen stats-screen" aria-label="Learning stats" hidden>
+        <div>
+          <p class="eyebrow">Progress</p>
+          <h2>Today</h2>
+        </div>
+        <section class="mini-dashboard" aria-label="Learning progress">
+          <article>
+            <span>Stars</span>
+            <strong id="scoreValue">0</strong>
+          </article>
+          <article>
+            <span>Correct</span>
+            <strong id="correctCount">0</strong>
+          </article>
+          <article>
+            <span>Try Again</span>
+            <strong id="missCount">0</strong>
+          </article>
+          <article>
+            <span>Streak</span>
+            <strong id="streakCount">0</strong>
+          </article>
+        </section>
+        <button id="closeStats" class="bottom-action" type="button">Back to matching</button>
+      </section>
+    </main>
+
+    <script src="app.js?v=15" defer></script>
+  </body>
+</html>

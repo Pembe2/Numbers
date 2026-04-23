@@ -1,0 +1,18 @@
+{
+  "name": "Letter Lab",
+  "short_name": "Letter Lab",
+  "description": "A mobile-first number and letter recognition practice app.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fff9ed",
+  "theme_color": "#f7c948",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
