@@ -1,10 +1,10 @@
-const CACHE_NAME = "letter-lab-v21";
+const CACHE_NAME = "letter-lab-v24";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=21",
-  "./app.js?v=21",
-  "./manifest.webmanifest?v=21",
+  "./styles.css?v=24",
+  "./app.js?v=24",
+  "./manifest.webmanifest?v=24",
   "./icon.svg"
 ];
 

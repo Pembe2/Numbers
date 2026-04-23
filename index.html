@@ -8,9 +8,9 @@
     <meta name="apple-mobile-web-app-title" content="Letter Lab">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Letter Lab</title>
-    <link rel="manifest" href="manifest.webmanifest?v=21">
+    <link rel="manifest" href="manifest.webmanifest?v=24">
     <link rel="icon" href="icon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="styles.css?v=21">
+    <link rel="stylesheet" href="styles.css?v=24">
   </head>
   <body>
     <main class="app-shell">
@@ -58,14 +58,12 @@
             <h2 id="traceTitle">Draw it with your finger</h2>
           </div>
           <div class="trace-tools">
-            <button id="toggleGuide" class="ghost-button" type="button">Hide guide</button>
             <button id="clearCanvas" class="ghost-button" type="button">Clear</button>
           </div>
         </div>
         <div class="canvas-wrap">
           <canvas id="traceCanvas" width="800" height="520" aria-label="Drawing area"></canvas>
           <span id="traceGuide" class="trace-guide" aria-hidden="true">A</span>
-          <svg id="strokeGuide" class="stroke-guide" viewBox="0 0 100 100" aria-hidden="true"></svg>
         </div>
         <button id="closeTrace" class="bottom-action" type="button">Back to matching</button>
       </section>
@@ -97,6 +95,6 @@
       </section>
     </main>
 
-    <script src="app.js?v=21" defer></script>
+    <script src="app.js?v=24" defer></script>
   </body>
 </html>

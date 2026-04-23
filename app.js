@@ -2,7 +2,6 @@ const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 const NUMBERS = Array.from({ length: 10 }, (_, index) => String(index + 1));
 const STORAGE_KEY = "letter-lab-progress-v1";
 const VOICE_STORAGE_KEY = "letter-lab-voice-v1";
-const GUIDE_STORAGE_KEY = "letter-lab-guide-v1";
 const QUANTITY_SHAPES = ["apple", "star", "leaf", "berry"];
 const FEMALE_VOICE_HINTS = [
   "siri",
@@ -39,71 +38,6 @@ const MALE_VOICE_HINTS = [
   "george",
   "male"
 ];
-const STROKE_GUIDES = {
-  A: [[[30, 88], [50, 12], [70, 88]], [[39, 55], [61, 55]]],
-  B: [[[33, 12], [33, 88]], [[33, 12], [66, 20], [62, 48], [33, 48]], [[33, 48], [68, 58], [62, 88], [33, 88]]],
-  C: [[[72, 22], [55, 12], [30, 28], [24, 55], [34, 80], [68, 82]]],
-  D: [[[32, 12], [32, 88]], [[32, 12], [70, 26], [72, 72], [32, 88]]],
-  E: [[[68, 14], [32, 14], [32, 88], [70, 88]], [[32, 50], [62, 50]]],
-  F: [[[32, 88], [32, 14], [70, 14]], [[32, 50], [62, 50]]],
-  G: [[[72, 24], [55, 12], [29, 28], [24, 56], [36, 82], [70, 78], [70, 58], [52, 58]]],
-  H: [[[30, 12], [30, 88]], [[70, 12], [70, 88]], [[30, 50], [70, 50]]],
-  I: [[[50, 14], [50, 86]], [[34, 14], [66, 14]], [[34, 86], [66, 86]]],
-  J: [[[70, 14], [70, 68], [58, 86], [36, 80]]],
-  K: [[[30, 12], [30, 88]], [[70, 14], [30, 52], [72, 88]]],
-  L: [[[32, 12], [32, 88], [70, 88]]],
-  M: [[[24, 88], [24, 14], [50, 58], [76, 14], [76, 88]]],
-  N: [[[28, 88], [28, 14], [72, 88], [72, 14]]],
-  O: [[[50, 12], [72, 24], [78, 52], [66, 82], [36, 86], [22, 58], [30, 24], [50, 12]]],
-  P: [[[32, 88], [32, 14]], [[32, 14], [68, 22], [62, 52], [32, 52]]],
-  Q: [[[50, 12], [72, 24], [78, 52], [66, 82], [36, 86], [22, 58], [30, 24], [50, 12]], [[58, 70], [76, 90]]],
-  R: [[[32, 88], [32, 14]], [[32, 14], [68, 22], [62, 52], [32, 52]], [[44, 52], [72, 88]]],
-  S: [[[70, 20], [42, 12], [25, 32], [45, 50], [70, 62], [58, 86], [28, 78]]],
-  T: [[[28, 14], [72, 14]], [[50, 14], [50, 88]]],
-  U: [[[28, 14], [28, 68], [42, 88], [58, 88], [72, 68], [72, 14]]],
-  V: [[[26, 14], [50, 88], [74, 14]]],
-  W: [[[20, 14], [34, 88], [50, 48], [66, 88], [80, 14]]],
-  X: [[[28, 14], [72, 88]], [[72, 14], [28, 88]]],
-  Y: [[[26, 14], [50, 50], [74, 14]], [[50, 50], [50, 88]]],
-  Z: [[[28, 14], [72, 14], [28, 88], [74, 88]]],
-  a: [[[66, 48], [52, 38], [32, 48], [30, 72], [48, 84], [66, 68], [66, 42], [66, 84]]],
-  b: [[[34, 14], [34, 84]], [[34, 50], [54, 38], [72, 54], [66, 80], [42, 82], [34, 68]]],
-  c: [[[68, 48], [52, 36], [30, 48], [28, 70], [48, 84], [70, 74]]],
-  d: [[[66, 14], [66, 84]], [[66, 52], [48, 38], [30, 52], [34, 78], [58, 82], [66, 66]]],
-  e: [[[70, 52], [52, 38], [30, 52], [70, 58], [58, 82], [32, 76]]],
-  f: [[[62, 16], [46, 16], [42, 40], [42, 86]], [[30, 42], [62, 42]]],
-  g: [[[66, 48], [50, 38], [30, 52], [34, 78], [58, 82], [66, 66], [66, 92], [42, 96]]],
-  h: [[[34, 14], [34, 84]], [[34, 52], [52, 38], [68, 52], [68, 84]]],
-  i: [[[50, 42], [50, 84]], [[50, 24], [50, 24]]],
-  j: [[[58, 42], [58, 88], [42, 98], [30, 88]], [[58, 24], [58, 24]]],
-  k: [[[34, 14], [34, 84]], [[66, 42], [34, 62], [68, 84]]],
-  l: [[[50, 14], [50, 84]]],
-  m: [[[24, 84], [24, 42], [40, 38], [50, 54], [50, 84]], [[50, 54], [66, 38], [78, 54], [78, 84]]],
-  n: [[[30, 84], [30, 42], [50, 38], [68, 54], [68, 84]]],
-  o: [[[50, 38], [70, 52], [64, 78], [40, 84], [28, 62], [36, 44], [50, 38]]],
-  p: [[[34, 98], [34, 42]], [[34, 50], [54, 38], [72, 54], [66, 80], [42, 82], [34, 68]]],
-  q: [[[66, 50], [48, 38], [30, 52], [34, 78], [58, 82], [66, 66]], [[66, 42], [66, 98]]],
-  r: [[[34, 84], [34, 42], [52, 38], [66, 46]]],
-  s: [[[66, 44], [42, 38], [30, 54], [58, 64], [66, 80], [36, 82]]],
-  t: [[[50, 20], [50, 78], [64, 84]], [[36, 42], [66, 42]]],
-  u: [[[30, 42], [30, 70], [44, 84], [64, 78], [64, 42], [64, 84]]],
-  v: [[[28, 42], [50, 84], [72, 42]]],
-  w: [[[20, 42], [34, 84], [50, 58], [66, 84], [80, 42]]],
-  x: [[[30, 42], [70, 84]], [[70, 42], [30, 84]]],
-  y: [[[28, 42], [50, 82], [72, 42]], [[50, 82], [40, 98], [26, 94]]],
-  z: [[[30, 42], [70, 42], [30, 84], [72, 84]]],
-  0: [[[50, 12], [72, 26], [76, 56], [62, 86], [38, 86], [24, 56], [28, 26], [50, 12]]],
-  1: [[[48, 24], [60, 14], [60, 88]], [[44, 88], [74, 88]]],
-  2: [[[30, 30], [48, 14], [72, 28], [66, 50], [30, 88], [74, 88]]],
-  3: [[[32, 20], [70, 20], [52, 50], [70, 50], [64, 84], [30, 76]]],
-  4: [[[70, 88], [70, 14], [28, 62], [78, 62]]],
-  5: [[[72, 16], [34, 16], [30, 48], [62, 48], [74, 70], [58, 88], [28, 78]]],
-  6: [[[68, 18], [42, 18], [26, 48], [32, 82], [62, 86], [76, 62], [54, 48], [30, 54]]],
-  7: [[[28, 16], [76, 16], [44, 88]]],
-  8: [[[50, 12], [70, 28], [50, 50], [30, 28], [50, 12]], [[50, 50], [76, 68], [58, 88], [30, 76], [50, 50]]],
-  9: [[[72, 48], [50, 86], [28, 70], [34, 34], [62, 18], [76, 42], [72, 88]]]
-};
-
 const state = {
   mode: "letters",
   target: "A",
@@ -125,7 +59,6 @@ const els = {
   streakCount: document.querySelector("#streakCount"),
   targetSymbol: document.querySelector("#targetSymbol"),
   traceGuide: document.querySelector("#traceGuide"),
-  strokeGuide: document.querySelector("#strokeGuide"),
   feedback: document.querySelector("#feedback"),
   choices: document.querySelector("#choices"),
   confirmNumber: document.querySelector("#confirmNumber"),
@@ -137,7 +70,6 @@ const els = {
   closeTrace: document.querySelector("#closeTrace"),
   openStats: document.querySelector("#openStats"),
   closeStats: document.querySelector("#closeStats"),
-  toggleGuide: document.querySelector("#toggleGuide"),
   voiceSelect: document.querySelector("#voiceSelect"),
   clearCanvas: document.querySelector("#clearCanvas"),
   canvas: document.querySelector("#traceCanvas")
@@ -146,13 +78,11 @@ const els = {
 const ctx = els.canvas.getContext("2d");
 let drawing = false;
 let voices = [];
-let showGuide = localStorage.getItem(GUIDE_STORAGE_KEY) !== "hidden";
 
 loadProgress();
 bindControls();
 setupVoices();
-  setupCanvas();
-updateGuideVisibility();
+setupCanvas();
 newRound();
 updateStats();
 registerServiceWorker();
@@ -167,7 +97,6 @@ function newRound() {
   els.targetSymbol.textContent = state.target;
   els.traceGuide.textContent = state.target;
   els.traceGuide.dataset.length = String(state.target.length);
-  renderStrokeGuide(state.target);
   els.feedback.textContent = round.instructions;
   els.feedback.className = "feedback";
   els.choices.replaceChildren(...round.choices.map(choiceButton));
@@ -327,7 +256,6 @@ function bindControls() {
     speakTarget();
   });
   els.clearCanvas.addEventListener("click", clearDrawing);
-  els.toggleGuide.addEventListener("click", toggleStrokeGuide);
 }
 
 function confirmNumberChoice() {
@@ -346,19 +274,6 @@ function updateConfirmButton() {
   els.confirmNumber.disabled = isNumberRound && !state.selectedNumberChoice;
 }
 
-function toggleStrokeGuide() {
-  showGuide = !showGuide;
-  localStorage.setItem(GUIDE_STORAGE_KEY, showGuide ? "shown" : "hidden");
-  updateGuideVisibility();
-}
-
-function updateGuideVisibility() {
-  els.strokeGuide.classList.toggle("is-hidden", !showGuide);
-  els.strokeGuide.style.display = showGuide ? "" : "none";
-  els.toggleGuide.setAttribute("aria-pressed", String(showGuide));
-  els.toggleGuide.textContent = showGuide ? "Hide guide" : "Show guide";
-}
-
 function showScreen(screen) {
   const showTrace = screen === "trace";
   const showStats = screen === "stats";
@@ -369,73 +284,6 @@ function showScreen(screen) {
   els.traceScreen.classList.toggle("is-active", showTrace);
   els.statsScreen.classList.toggle("is-active", showStats);
   clearDrawing();
-}
-
-function renderStrokeGuide(symbol) {
-  els.strokeGuide.replaceChildren();
-
-  const characters = String(symbol).split("");
-  const width = 100;
-  const digitWidth = width / characters.length;
-  const marker = svgElement("marker", {
-    id: "arrowHead",
-    viewBox: "0 0 10 10",
-    refX: "9",
-    refY: "5",
-    markerWidth: "5",
-    markerHeight: "5",
-    orient: "auto-start-reverse"
-  });
-  marker.append(
-    svgElement("path", {
-      d: "M 0 0 L 10 5 L 0 10 z",
-      class: "stroke-arrow-head"
-    })
-  );
-  const defs = svgElement("defs");
-  defs.append(marker);
-  els.strokeGuide.append(defs);
-
-  characters.forEach((character, charIndex) => {
-    const strokes = STROKE_GUIDES[character] || STROKE_GUIDES[character.toUpperCase()] || STROKE_GUIDES.O;
-    const group = svgElement("g", {
-      transform: `translate(${charIndex * digitWidth} 0) scale(${digitWidth / 100} 1)`
-    });
-
-    strokes.forEach((points, strokeIndex) => {
-      const path = svgElement("path", {
-        d: pathFromPoints(points),
-        class: "stroke-path",
-        "marker-end": "url(#arrowHead)"
-      });
-      const start = points[0];
-      const badge = svgElement("circle", {
-        cx: start[0],
-        cy: start[1],
-        r: "5.4",
-        class: "stroke-start"
-      });
-      const label = svgElement("text", {
-        x: start[0],
-        y: start[1] + 2.1,
-        class: "stroke-number"
-      });
-      label.textContent = String(strokeIndex + 1);
-      group.append(path, badge, label);
-    });
-
-    els.strokeGuide.append(group);
-  });
-}
-
-function pathFromPoints(points) {
-  return points.map((point, index) => `${index === 0 ? "M" : "L"} ${point[0]} ${point[1]}`).join(" ");
-}
-
-function svgElement(name, attributes = {}) {
-  const element = document.createElementNS("http://www.w3.org/2000/svg", name);
-  Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
-  return element;
 }
 
 function setActive(selector, activeButton) {
@@ -458,7 +306,7 @@ function speakTarget(onDone) {
   }
 
   window.speechSynthesis.cancel();
-  const prompt = state.roundType === "numbers" ? numberWord(state.target) : state.target;
+  const prompt = state.roundType === "numbers" ? numberWord(state.target) : spokenLetter(state.target);
   const utterance = new SpeechSynthesisUtterance(prompt);
   const voice = selectedVoice(els.voiceSelect.value);
   if (voice) utterance.voice = voice;
@@ -511,7 +359,11 @@ function speakText(text, onDone) {
 }
 
 function spokenValue(value) {
-  return typeof value === "number" ? numberWord(String(value)) : value;
+  return typeof value === "number" ? numberWord(String(value)) : spokenLetter(value);
+}
+
+function spokenLetter(value) {
+  return String(value).toLowerCase();
 }
 
 function setupVoices() {
